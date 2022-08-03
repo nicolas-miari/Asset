@@ -3,7 +3,7 @@ import Foundation
 /**
  Root protocol, defines the interface common to all asset types.
  */
-public protocol Asset {
+public protocol Asset: AnyObject {
   /// The human-readable name of the asset. Can be changed at will.
   var name: String { get set }
 
