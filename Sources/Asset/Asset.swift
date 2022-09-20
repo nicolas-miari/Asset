@@ -37,8 +37,19 @@ public protocol BinaryResourceAsset: Asset {
  */
 public protocol CompositeAsset: Asset {
 
+  /// A type used to pass configuration options to the asset initializer
+  associatedtype Options: CompositeAssetOptions
+
   /// An array of strings each representing theunique identifier of an asset that is required for
   /// the functioning of this one.
   var dependencies: [String] { get set }
+
+  /// Creates a new instance with the specified asset IDs as dependencies (children) and a
+  /// configuration.
+  init(dependencies: [String], options: Options)
+}
+
+public protocol CompositeAssetOptions {
+  var name: String { get }
 }
 
