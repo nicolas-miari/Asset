@@ -1,9 +1,10 @@
 import Foundation
+import UniqueIdentifierProvider
 
-/**
- Root protocol, defines the interface common to all asset types.
- */
+
+/// Root protocol, defines the interface common to all asset types.
 public protocol Asset: AnyObject, Codable {
+
   /// The human-readable name of the asset. Can be changed at will.
   var name: String { get set }
 
@@ -11,18 +12,16 @@ public protocol Asset: AnyObject, Codable {
   var identifier: String { get }
 }
 
-/**
- Defines the interface common to all metadata-only assets.
+// MARK: - Asset Subtypes
 
- The protocol defines no constraints, as any properties of conforming types will depend on the
- specific asset type.
- */
+/// Defines the interface common to all metadata-only assets.
+///
+/// The protocol defines no constraints, as any properties of conforming types will depend on the
+/// specific asset type.
 public protocol PrimitiveAsset: Asset {
 }
 
-/**
- Defines the interface common to all asset types that depend on a binary resource.
- */
+/// Defines the interface common to all asset types that depend on a binary resource.
 public protocol BinaryResourceAsset: Asset {
 
   /// Uniquely identifies the binary resource on which this asset depends.
@@ -32,9 +31,7 @@ public protocol BinaryResourceAsset: Asset {
   var binaryResourceIdentifier: String { get }
 }
 
-/**
- Defines the interface common to all asset types that depend on other assets.
- */
+/// Defines the interface common to all asset types that depend on other assets.
 public protocol CompositeAsset: Asset {
 
   /// A type used to pass configuration options to the asset initializer
@@ -46,10 +43,13 @@ public protocol CompositeAsset: Asset {
 
   /// Creates a new instance with the specified asset IDs as dependencies (children) and a
   /// configuration.
-  init(dependencies: [String], options: Options)
+  init(dependencies: [String], identifierProvider: UniqueIdentifierProvider, options: Options) throws
 }
+
+// MARK: - Supporting Types
 
 public protocol CompositeAssetOptions {
+
+  /// At the bare minimum, an asset options should include the user-sepcified asset name.
   var name: String { get }
 }
-
