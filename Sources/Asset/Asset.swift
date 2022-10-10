@@ -1,6 +1,4 @@
 import Foundation
-import UniqueIdentifierProvider
-
 
 /// Root protocol, defines the interface common to all asset types.
 public protocol Asset: AnyObject, Codable {
@@ -29,27 +27,4 @@ public protocol BinaryResourceAsset: Asset {
   /// The asset only contains the resource identifier. Whenever the actual binary resource data is
   /// needed, a provider object that can locate the data from this identifier is needed.
   var binaryResourceIdentifier: String { get }
-}
-
-/// Defines the interface common to all asset types that depend on other assets.
-public protocol CompositeAsset: Asset {
-
-  /// A type used to pass configuration options to the asset initializer
-  associatedtype Options: CompositeAssetOptions
-
-  /// An array of strings each representing theunique identifier of an asset that is required for
-  /// the functioning of this one.
-  var dependencies: [String] { get set }
-
-  /// Creates a new instance with the specified asset IDs as dependencies (children) and a
-  /// configuration.
-  init(dependencies: [String], identifierProvider: UniqueIdentifierProvider, options: Options) throws
-}
-
-// MARK: - Supporting Types
-
-public protocol CompositeAssetOptions {
-
-  /// At the bare minimum, an asset options should include the user-sepcified asset name.
-  var name: String { get }
 }
